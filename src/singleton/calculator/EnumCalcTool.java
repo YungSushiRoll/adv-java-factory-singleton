@@ -1,10 +1,19 @@
 package singleton.calculator;
 
-public class CalcTool {
+public enum EnumCalcTool {
 
-    private static CalcTool instance = null;
+    INSTANCE;
+
     private static int totalBMICalculated = 0;
     private static int numberOfCalculations = 0;
+
+    EnumCalcTool() {
+        try {
+            // Simulate a long-running constructor, maybe a network or database call?
+            Thread.currentThread().sleep(1500);
+        } catch (InterruptedException ex) {
+        }
+    }
 
     public static double calcBMI(double height, double weight, MeasurementSystem measurementSystem) {
         double bmi = weight / Math.pow(height, 2);
@@ -17,15 +26,8 @@ public class CalcTool {
         return bmi;
     }
 
+
     public static double averageBMI() {
         return totalBMICalculated / numberOfCalculations;
-    }
-
-    public static CalcTool getInstance() {
-        if (instance == null) {
-            instance = new CalcTool();
-        }
-
-        return instance;
     }
 }

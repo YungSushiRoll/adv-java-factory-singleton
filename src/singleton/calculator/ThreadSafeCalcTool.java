@@ -1,8 +1,7 @@
 package singleton.calculator;
 
-public class CalcTool {
+public class ThreadSafeCalcTool extends Thread {
 
-    private static CalcTool instance = null;
     private static int totalBMICalculated = 0;
     private static int numberOfCalculations = 0;
 
@@ -17,15 +16,16 @@ public class CalcTool {
         return bmi;
     }
 
-    public static double averageBMI() {
-        return totalBMICalculated / numberOfCalculations;
+
+    public void averageBMI() {
+        start();
     }
 
-    public static CalcTool getInstance() {
-        if (instance == null) {
-            instance = new CalcTool();
-        }
-
-        return instance;
+    @Override
+    public void run() {
+        // CalcTool calcTool = CalcTool.getInstance();
+        EnumCalcTool calcTool = EnumCalcTool.INSTANCE;
+        double aveBMI = (totalBMICalculated / numberOfCalculations);
+        System.out.println(aveBMI);
     }
 }

@@ -7,12 +7,13 @@ public class CalculatorDriver {
 
     public static void main(String[] args) {
         List<Client> clientList = initClientList();
+        ThreadSafeCalcTool threadSafeCalcTool = new ThreadSafeCalcTool();
 
         for (Client client : clientList) {
             String weightUnits = client.getMeasurementSystem() == MeasurementSystem.METRIC ? "kilograms" : "pounds";
             String heightUnits = client.getMeasurementSystem() == MeasurementSystem.METRIC ? "meters" : "inches";
 
-            double bmi = CalcTool.calcBMI(client.getHeight(), client.getWeight(), client.getMeasurementSystem());
+            double bmi = threadSafeCalcTool.calcBMI(client.getHeight(), client.getWeight(), client.getMeasurementSystem());
 
             System.out.printf("%s weighs %.1f %s and is %.1f %s tall with a BMI of %.2f\n",
                     client.getName(),
@@ -22,8 +23,8 @@ public class CalculatorDriver {
                     heightUnits,
                     bmi);
         }
-
-        System.out.println("The average BMI calculated in this run is " + CalcTool.averageBMI());
+        System.out.println("The average BMI calculated in this run is ");
+        threadSafeCalcTool.averageBMI();
     }
 
     private static List<Client> initClientList() {
